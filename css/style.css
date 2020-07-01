@@ -1,0 +1,20 @@
+/* RESET */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  outline: none;
+}
+
+/* GENERAL */
+body {
+  font-family: 'Noto Sans', sans-serif;
+}
+.wrapper {
+  width: 100%;
+  max-width: 1170px;
+  min-height: 500px;
+  margin: 10px auto;
+  box-shadow: 0px 0px 8px 4px #ccc;
+  padding: 15px 30px;
+}
