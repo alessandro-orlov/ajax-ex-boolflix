@@ -6,10 +6,8 @@ $(document).ready(function() {
     // Metto il valore dell'input nella variabile (function line: 36)*
     var searchValue = searchMovieValue();
 
-    var page = 1;
-
     // Chiamo il database di TMDb e visualizzo i risultati in base al valore della ricerca
-    ajaxCall(searchValue, page);
+    ajaxCall(searchValue);
 
     $('.select-container').removeClass('hidden')
   }); // End click on search-movie-btn
@@ -21,10 +19,8 @@ $(document).ready(function() {
       // Metto il valore dell'input nella variabile (function line: 36)*
       var searchValue = searchMovieValue();
 
-      var page = 1;
-
       // Chiamo il database di TMDb e visualizzo i risultati in base al valore della ricerca
-      ajaxCall(searchValue, page);
+      ajaxCall(searchValue);
 
       $('.select-container').removeClass('hidden')
     } // End if
@@ -57,7 +53,7 @@ function searchMovieValue() {
 // api_key: 345a41c08ec6d0c01364a6a7cd7a8052
 // Interroga il database di Themoviedatabase.org e stampo i valori
 // --->>> Argomento: variabile che è una stringa o un valore dell'input
-function ajaxCall(valoreRicerca, page) {
+function ajaxCall(valoreRicerca) {
 
   $.ajax(
     {
@@ -66,7 +62,7 @@ function ajaxCall(valoreRicerca, page) {
       data: {
         api_key:"345a41c08ec6d0c01364a6a7cd7a8052",
         query: valoreRicerca,
-        page: page,
+        page: 1,
         languege: 'it'
       },
       success: function(data) {
@@ -123,12 +119,37 @@ function pageSelector(valoreRicerca) {
   // Seleziono tag select
   var select = $('.page-selector');
 
+  select.val(1)
+
   // Cambio valore dell'opzione del tag select
   select.change(function() {
     // Seleziono opzione del select
     selectOption = $(select).val();
 
-    ajaxCall(valoreRicerca, selectOption)
+    // Eliminato effetto terminator
+    // ajaxCall(valoreRicerca, selectOption)
+    $.ajax(
+      {
+        url:"https://api.themoviedb.org/3/search/movie",
+        method:"GET",
+        data: {
+          api_key:"345a41c08ec6d0c01364a6a7cd7a8052",
+          query: valoreRicerca,
+          page: selectOption,
+          languege: 'it'
+        },
+        success: function(data) {
+          var searchResults = data.results;
+          console.log(searchResults)
+
+          movieTamplate(searchResults);
+
+        },
+        error: function() {
+          alert('ERRORE')
+        }
+      }
+    ); // End ajax call
 
   });
 }
