@@ -63,7 +63,7 @@ function ajaxCall(valoreRicerca) {
         api_key:"345a41c08ec6d0c01364a6a7cd7a8052",
         query: valoreRicerca,
         page: 1,
-        languege: 'it'
+        language: 'it-IT'
       },
       success: function(data) {
         var searchResults = data.results;
@@ -136,7 +136,7 @@ function pageSelector(valoreRicerca) {
           api_key:"345a41c08ec6d0c01364a6a7cd7a8052",
           query: valoreRicerca,
           page: selectOption,
-          languege: 'it'
+          language: 'it-IT'
         },
         success: function(data) {
           var searchResults = data.results;
