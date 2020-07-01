@@ -18,3 +18,20 @@ body {
   box-shadow: 0px 0px 8px 4px #ccc;
   padding: 15px 30px;
 }
+.show-results {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+.movie-container {
+  flex-basis: calc(100% / 5);
+  padding: 10px;
+  min-height: 250px
+}
+.movie-container .overview {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 5;
+  -webkit-box-orient: vertical;
+
+}

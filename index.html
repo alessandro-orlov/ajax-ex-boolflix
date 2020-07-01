@@ -14,7 +14,12 @@
   </head>
   <body>
     <div class="wrapper">
+      <input class="search-movie" placeholder="inserisci il titolo del film">
+      <button class="search-movie-btn">cerca</button>
 
+      <div class="show-results">
+
+      </div>
 
     </div>
     <!-- End wrapper -->
@@ -22,7 +27,16 @@
     <!-- Handlebars tamplate -->
     <script id="movies-template" type="text/x-handlebars-template">
 
-      <!-- single movies -->
+      <div class="movie-container">
+        <h3>{{original_title}}</h3>
+        <span>Data d'uscita:</span><span>{{release_date}}</span>
+        <div class="overview">
+          {{overview}}
+        </div>
+        <div class="voto">
+          {{vote_average}}
+        </div>
+      </div>
 
     </script>
     <!-- End Handlebars tamplate -->
