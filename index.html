@@ -18,8 +18,19 @@
       <button class="search-movie-btn">cerca</button>
 
       <div class="show-results">
-
+        <!-- risultati di ricerca -->
       </div>
+
+      <div class="select-container hidden">
+        <select class="page-selector">
+          <option value="1">Pagina 1</option>
+          <option value="2">Pagina 2</option>
+          <option value="3">Pagina 3</option>
+          <option value="4">Pagina 4</option>
+          <option value="5">Pagina 5</option>
+        </select>
+      </div>
+
 
     </div>
     <!-- End wrapper -->
@@ -28,13 +39,14 @@
     <script id="movies-template" type="text/x-handlebars-template">
 
       <div class="movie-container">
-        <h3>{{original_title}}</h3>
-        <span>Data d'uscita:</span><span>{{release_date}}</span>
+        <h3>{{titolo-originale}}</h3>
+        <h4>{{titolo}}</h4>
+        <span>Data d'uscita:</span><span>{{uscita}}</span>
         <div class="overview">
           {{overview}}
         </div>
         <div class="voto">
-          {{vote_average}}
+          {{voto_medio}}
         </div>
       </div>
 

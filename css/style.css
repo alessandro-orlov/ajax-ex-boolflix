@@ -22,6 +22,7 @@ body {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
+  margin-left: -10px;
 }
 .movie-container {
   flex-basis: calc((100% / 5) - 20px);
@@ -35,5 +36,10 @@ body {
   display: -webkit-box;
   -webkit-line-clamp: 5;
   -webkit-box-orient: vertical;
-
+}
+.wrapper .select-container  {
+  text-align: center;
+}
+.wrapper .hidden {
+  display: none;
 }
