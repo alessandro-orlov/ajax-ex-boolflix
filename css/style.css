@@ -24,9 +24,11 @@ body {
   justify-content: space-between;
 }
 .movie-container {
-  flex-basis: calc(100% / 5);
-  padding: 10px;
-  min-height: 250px
+  flex-basis: calc((100% / 5) - 20px);
+    padding: 10px;
+    margin: 10px;
+    min-height: 250px;
+    box-shadow: 2px 2px 8px 2px #ccc;
 }
 .movie-container .overview {
   overflow: hidden;
