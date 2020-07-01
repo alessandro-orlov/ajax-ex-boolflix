@@ -25,11 +25,11 @@ body {
   margin-left: -10px;
 }
 .movie-container {
-  flex-basis: calc((100% / 5) - 20px);
-    padding: 10px;
-    margin: 10px;
-    min-height: 250px;
-    box-shadow: 2px 2px 8px 2px #ccc;
+  flex-basis: 100%;
+  padding: 10px;
+  margin: 10px;
+  min-height: 250px;
+  box-shadow: 2px 2px 8px 2px #ccc;
 }
 .movie-container .overview {
   overflow: hidden;
@@ -42,4 +42,25 @@ body {
 }
 .wrapper .hidden {
   display: none;
+}
+
+
+/* MEDIA QUERY */
+@media all and (min-width:480px) {
+  .movie-container {
+    flex-basis: calc((100% / 2) - 20px);
+  }
+}
+
+/* 768px */
+@media all and (min-width:768px) {
+  .movie-container {
+    flex-basis: calc((100% / 3) - 20px);
+  }
+}
+
+@media all and (min-width:960px) {
+  .movie-container {
+    flex-basis: calc((100% / 5) - 20px);
+  }
 }
