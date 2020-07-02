@@ -32,7 +32,7 @@ body {
 .movie-container {
   flex-basis: 100%;
   padding-bottom: 15px;
-  margin: 10px;
+  margin: 20px 10px;
   min-height: 250px;
   box-shadow: 2px 2px 8px 2px #ccc;
   text-align: center;
@@ -68,12 +68,12 @@ body {
 /* 768px */
 @media all and (min-width:768px) {
   .movie-container {
-    flex-basis: calc((100% / 3) - 20px);
+    flex-basis: calc((100% / 3) - 20px );
   }
 }
 
 @media all and (min-width:960px) {
   .movie-container {
-    flex-basis: calc((100% / 5) - 20px);
+    flex-basis: calc((100% / 4) - 20px);
   }
 }
