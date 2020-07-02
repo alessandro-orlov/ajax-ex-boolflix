@@ -20,6 +20,8 @@
 
       <div class="show-results">
         <!-- risultati di ricerca -->
+
+
       </div>
 
       <div class="select-container hidden">
@@ -36,21 +38,27 @@
     </div>
     <!-- End wrapper -->
 
-    <!-- Handlebars tamplate -->
+    <!-- Handlebars movie tamplate -->
     <script id="movies-template" type="text/x-handlebars-template">
-
       <div class="movie-container">
-        <h3>{{titolo-originale}}</h3>
-        <h4>{{titolo}}</h4>
-        <span>Data d'uscita:</span><span>{{uscita}}</span>
-        <div class="overview">
-          {{overview}}
-        </div>
+        <img src="{{poster}}">
+        <h2>{{titolo}}</h2>
+        <h5>{{titolo-originale}}</h5>
+        <span>Uscita:</span><span>{{uscita}}</span>
+        <div>lingua: {{lingua}}</div>
         <div class="voto">
           {{voto_medio}}
         </div>
       </div>
+    </script>
+    <!-- End Handlebars movie tamplate -->
 
+
+
+
+    <!-- Handlebars message tamplate -->
+    <script id="message-template" type="text/x-handlebars-template">
+      <p class="error-message">{{message}}</p>
     </script>
     <!-- End Handlebars tamplate -->
 

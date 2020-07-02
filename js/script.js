@@ -3,29 +3,32 @@ $(document).ready(function() {
 
   // Al click sul bottone stampo i risultati della ricerca
   $('button.search-movie-btn').click(function() {
+    // Resetto la pagina prima di stampore risultati
+    resetSearchResult();
+
     // Metto il valore dell'input nella variabile (function line: 36)*
     var searchValue = searchMovieValue();
 
     // Chiamo il database di TMDb e visualizzo i risultati in base al valore della ricerca
     ajaxCall(searchValue);
 
-    $('.select-container').removeClass('hidden')
   }); // End click on search-movie-btn
 
 
   // Premendo tasto enter stampo i risultati della ricerca
   $('.search-movie').keypress(function(event) {
     if (event.which === 13 ) {
+      // Resetto la pagina prima di stampore risultati
+      resetSearchResult();
+
       // Metto il valore dell'input nella variabile (function line: 36)*
       var searchValue = searchMovieValue();
 
       // Chiamo il database di TMDb e visualizzo i risultati in base al valore della ricerca
       ajaxCall(searchValue);
 
-      $('.select-container').removeClass('hidden')
-    } // End if
+    } // End if event.which
   }); // End keypress event
-
 
 
 
@@ -47,6 +50,7 @@ function searchMovieValue() {
     return searchInputValue
 }; // End funzione searchMovie
 
+
 // ==============================================================
 // Funzione ajaxCall
 // TMDb: Chiave API (v3 auth)
@@ -67,15 +71,26 @@ function ajaxCall(valoreRicerca) {
       },
       success: function(data) {
         var searchResults = data.results;
-        console.log(searchResults)
+        console.log(searchResults);
 
-        movieTamplate(searchResults);
+        if(searchResults.length > 0) {
+          movieTamplate(searchResults);
 
-        pageSelector(valoreRicerca);
+          pageSelector(valoreRicerca);
 
+          $('.select-container').removeClass('hidden');
+        } else {
+          var noResultsMessage = "La ricerca non ha prodotto risultati";
+          printMessage(noResultsMessage);
+
+          $('.select-container').addClass('hidden');
+        }
       },
       error: function() {
-        alert('ERRORE')
+        var errore = "Qualcosa non torna";
+        printMessage(errore);
+
+        $('.select-container').addClass('hidden');
       }
     }
   ); // End ajax call
@@ -87,8 +102,7 @@ function ajaxCall(valoreRicerca) {
 // Con hendlebars compilo il tamplate
 // --->>> Argomento: un array di oggetti che ottengo con la chiamata ajax
 function movieTamplate(resultArray) {
-  // Azzero i risultati della pagina qualora fossero presenti
-  $('.show-results').html('');
+
   // Compilo il template
   var source = $('#movies-template').html();
   var template = Handlebars.compile(source);
@@ -96,14 +110,23 @@ function movieTamplate(resultArray) {
   for (var i = 0; i < resultArray.length; i++) {
     // Metto nella variabile singolo oggetto dell'array
     var sinngleMovie = resultArray[i];
+
+    var poster = 'https://image.tmdb.org/t/p/original' + sinngleMovie.poster_path;
+
+    if (sinngleMovie.poster_path === null) {
+      poster = 'img/no-poster1.jpg'
+    }
+
+
     // Metto nell'oggetto le chiavi del risultato e stamo i relativi valori
     var context = {
+      "poster" : poster,
       "titolo": sinngleMovie.title,
       "titolo-originale": sinngleMovie.original_title,
       "uscita": sinngleMovie.release_date,
       "overview": sinngleMovie.overview,
+      "lingua": sinngleMovie.original_language,
       "voto_medio": sinngleMovie.vote_average,
-      "anteprima": sinngleMovie.poster_path
     }
 
     var html = template(context);
@@ -114,7 +137,6 @@ function movieTamplate(resultArray) {
 }
 
 // =============================================================
-
 function pageSelector(valoreRicerca) {
   // Seleziono tag select
   var select = $('.page-selector');
@@ -126,8 +148,8 @@ function pageSelector(valoreRicerca) {
     // Seleziono opzione del select
     selectOption = $(select).val();
 
-    // Eliminato effetto terminator
-    // ajaxCall(valoreRicerca, selectOption)
+    // Stampo la pagina della ricerca
+    // selezionata nel select (.page-selector)
     $.ajax(
       {
         url:"https://api.themoviedb.org/3/search/movie",
@@ -142,6 +164,8 @@ function pageSelector(valoreRicerca) {
           var searchResults = data.results;
           console.log(searchResults)
 
+          resetSearchResult();
+
           movieTamplate(searchResults);
 
         },
@@ -154,6 +178,28 @@ function pageSelector(valoreRicerca) {
   });
 }
 
+// =============================================================
+// Funzione resetPage()
+// Azzero i risultati della pagina qualora fossero presenti
+function resetSearchResult() {
+  $('.show-results').html('');
+}
 
+// =============================================================
+// Funzione messagio di ERRORE
+// argomento deve essere una stringa
+function printMessage(text) {
+  // Compilo il template
+  var source = $('#message-template').html();
+  var template = Handlebars.compile(source);
+  var context = { message: text }
+
+  // resetSearchResult()
+
+  var html = template(context);
+
+  // Appendo il template compilato nel container apposito
+  $('.show-results').append(html)
+}
 
 }) // end document ready

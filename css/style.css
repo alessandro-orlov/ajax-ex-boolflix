@@ -24,12 +24,25 @@ body {
   justify-content: space-between;
   margin-left: -10px;
 }
+.show-results .error-message {
+  color: red;
+}
+
+/* MOVIE CONTAINER */
 .movie-container {
   flex-basis: 100%;
-  padding: 10px;
+  padding-bottom: 15px;
   margin: 10px;
   min-height: 250px;
   box-shadow: 2px 2px 8px 2px #ccc;
+  text-align: center;
+  border-radius: 10px;
+  background-color: #fff;
+}
+.movie-container img {
+  width: 100%;
+  border-top-right-radius: 10px;
+  border-top-left-radius: 10px;
 }
 .movie-container .overview {
   overflow: hidden;
