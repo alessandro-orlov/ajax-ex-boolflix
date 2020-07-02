@@ -171,7 +171,7 @@ function movieTamplate(resultArray) {
         // MOVIE SEARCH
         "poster" : poster,
         "titolo" : sinngleMovie.title,
-        "titolo_originale": sinngleMovie.original_title,
+        "titolo-originale": sinngleMovie.original_title,
         "uscita": sinngleMovie.release_date,
         "overview": sinngleMovie.overview,
         "lingua": sinngleMovie.original_language,

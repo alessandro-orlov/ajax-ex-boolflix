@@ -39,11 +39,14 @@ body {
   border-radius: 10px;
   background-color: #fbfeff;
 }
+.movie-container h2 {
+  min-height: 70px;
+}
 .movie-container div {
   line-height: 40px;
 }
 .movie-container img {
-  height: 400px;
+  height: 350px;
   border-top-right-radius: 10px;
   border-top-left-radius: 10px;
 }
