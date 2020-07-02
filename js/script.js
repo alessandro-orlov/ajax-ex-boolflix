@@ -1,6 +1,5 @@
 $(document).ready(function() {
 
-
   // Al click sul bottone stampo i risultati della ricerca
   $('button.search-movie-btn').click(function() {
     // Resetto la pagina prima di stampore risultati
@@ -61,7 +60,7 @@ function ajaxCall(valoreRicerca) {
 
   $.ajax(
     {
-      url:"https://api.themoviedb.org/3/search/movie",
+      url:"https://api.themoviedb.org/3/search/multi",
       method:"GET",
       data: {
         api_key:"345a41c08ec6d0c01364a6a7cd7a8052",
@@ -97,45 +96,6 @@ function ajaxCall(valoreRicerca) {
 
 } // End function ajaxCall
 
-// ==============================================================
-// Function movieTamplate
-// Con hendlebars compilo il tamplate
-// --->>> Argomento: un array di oggetti che ottengo con la chiamata ajax
-function movieTamplate(resultArray) {
-
-  // Compilo il template
-  var source = $('#movies-template').html();
-  var template = Handlebars.compile(source);
-
-  for (var i = 0; i < resultArray.length; i++) {
-    // Metto nella variabile singolo oggetto dell'array
-    var sinngleMovie = resultArray[i];
-
-    var poster = 'https://image.tmdb.org/t/p/original' + sinngleMovie.poster_path;
-
-    if (sinngleMovie.poster_path === null) {
-      poster = 'img/no-poster1.jpg'
-    }
-
-
-    // Metto nell'oggetto le chiavi del risultato e stamo i relativi valori
-    var context = {
-      "poster" : poster,
-      "titolo": sinngleMovie.title,
-      "titolo-originale": sinngleMovie.original_title,
-      "uscita": sinngleMovie.release_date,
-      "overview": sinngleMovie.overview,
-      "lingua": sinngleMovie.original_language,
-      "voto_medio": sinngleMovie.vote_average,
-    }
-
-    var html = template(context);
-
-    // Appendo il template compilato nel container apposito
-    $('.show-results').append(html)
-  }
-}
-
 // =============================================================
 function pageSelector(valoreRicerca) {
   // Seleziono tag select
@@ -152,7 +112,7 @@ function pageSelector(valoreRicerca) {
     // selezionata nel select (.page-selector)
     $.ajax(
       {
-        url:"https://api.themoviedb.org/3/search/movie",
+        url:"https://api.themoviedb.org/3/search/multi",
         method:"GET",
         data: {
           api_key:"345a41c08ec6d0c01364a6a7cd7a8052",
@@ -178,6 +138,54 @@ function pageSelector(valoreRicerca) {
   });
 }
 
+
+// ==============================================================
+// Function movieTamplate
+// Con hendlebars compilo il tamplate
+// --->>> Argomento: un array di oggetti che ottengo con la chiamata ajax
+function movieTamplate(resultArray) {
+
+  // Compilo il template
+  var source = $('#movies-template').html();
+  var template = Handlebars.compile(source);
+
+  for (var i = 0; i < resultArray.length; i++) {
+    // Metto nella variabile singolo oggetto dell'array
+    var sinngleMovie = resultArray[i];
+
+    // Trasformazione da punteggio 10 a punteggio 5
+    var rating = sinngleMovie.vote_average
+    var ratingToPrint = movieScore(rating);
+
+    // POSTER
+    var poster = 'https://image.tmdb.org/t/p/original' + sinngleMovie.poster_path;
+
+    if (sinngleMovie.poster_path === null) {
+      poster = 'img/no-poster1.jpg'
+    }
+
+    // Metto nell'oggetto le chiavi del risultato e stamo i relativi valori
+    var context = {
+      // MOVIE SEARCH
+      "poster" : poster,
+      "titolo": sinngleMovie.title,
+      "titolo-originale": sinngleMovie.original_title,
+      "uscita": sinngleMovie.release_date,
+      "overview": sinngleMovie.overview,
+      "lingua": sinngleMovie.original_language,
+      "voto_medio": ratingToPrint,
+
+      // TV SERIES
+
+    }
+
+    var html = template(context);
+
+    // Appendo il template compilato nel container apposito
+    $('.show-results').append(html)
+  }
+}
+
 // =============================================================
 // Funzione resetPage()
 // Azzero i risultati della pagina qualora fossero presenti
@@ -192,14 +200,32 @@ function printMessage(text) {
   // Compilo il template
   var source = $('#message-template').html();
   var template = Handlebars.compile(source);
+
   var context = { message: text }
-
-  // resetSearchResult()
-
   var html = template(context);
 
   // Appendo il template compilato nel container apposito
   $('.show-results').append(html)
+}
+
+// =============================================================
+// Funzione trasformazione voto
+function movieScore(rating) {
+  // Trasformazione punteggio a 5 punti
+  var ratingTrasformato = rating / 2;
+
+  var vote = Math.round(ratingTrasformato);
+  console.log(vote);
+
+  var stars = '';
+  for (var i = 1; i <= 5; i++) {
+      if (i <= vote) {
+        stars += '<i class="fas fa-star"></i>';
+      } else {
+        stars += '<i class="far fa-star"></i>';
+      }
+  }
+  return stars;
 }
 
 }) // end document ready
