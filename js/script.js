@@ -122,7 +122,6 @@ function pageSelector(valoreRicerca) {
         },
         success: function(data) {
           var searchResults = data.results;
-          console.log(searchResults)
 
           resetSearchResult();
 
@@ -158,31 +157,38 @@ function movieTamplate(resultArray) {
     var ratingToPrint = movieScore(rating);
 
     // POSTER
-    var poster = 'https://image.tmdb.org/t/p/original' + sinngleMovie.poster_path;
-
-    if (sinngleMovie.poster_path === null) {
+    if (sinngleMovie.poster_path !== null) {
+      var poster = 'https://image.tmdb.org/t/p/original' + sinngleMovie.poster_path;
+    } else {
       poster = 'img/no-poster1.jpg'
     }
 
-    // Metto nell'oggetto le chiavi del risultato e stamo i relativi valori
-    var context = {
-      // MOVIE SEARCH
-      "poster" : poster,
-      "titolo": sinngleMovie.title,
-      "titolo-originale": sinngleMovie.original_title,
-      "uscita": sinngleMovie.release_date,
-      "overview": sinngleMovie.overview,
-      "lingua": sinngleMovie.original_language,
-      "voto_medio": ratingToPrint,
+    var persona = sinngleMovie.media_type;
+    console.log(persona)
+    if(persona != "person") {
+      // Metto nell'oggetto le chiavi del risultato e stampo i relativi valori
+      var context = {
+        // MOVIE SEARCH
+        "poster" : poster,
+        "titolo" : sinngleMovie.title,
+        "titolo_originale": sinngleMovie.original_title,
+        "uscita": sinngleMovie.release_date,
+        "overview": sinngleMovie.overview,
+        "lingua": sinngleMovie.original_language,
+        "voto_medio": ratingToPrint,
 
-      // TV SERIES
+        // TV SERIES
+        "titolo_tv" : sinngleMovie.name,
+        "uscita_tv" : sinngleMovie.first_air_date,
+        "serire_tv": "Genere" + ' ' + sinngleMovie.media_type
+      }
 
+      var html = template(context);
+
+      // Appendo il template compilato nel container apposito
+      $('.show-results').append(html)
     }
 
-    var html = template(context);
-
-    // Appendo il template compilato nel container apposito
-    $('.show-results').append(html)
   }
 }
 
@@ -215,7 +221,6 @@ function movieScore(rating) {
   var ratingTrasformato = rating / 2;
 
   var vote = Math.round(ratingTrasformato);
-  console.log(vote);
 
   var stars = '';
   for (var i = 1; i <= 5; i++) {

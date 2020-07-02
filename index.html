@@ -44,9 +44,10 @@
     <script id="movies-template" type="text/x-handlebars-template">
       <div class="movie-container">
         <img src="{{poster}}">
-        <h2>{{titolo}}</h2>
+        <h2>{{titolo}} {{titolo_tv}}</h2>
         <h5>{{titolo-originale}}</h5>
-        <span>Uscita:</span><span>{{uscita}}</span>
+        <div>{{serire_tv}}</div>
+        <span>Uscita:</span><span>{{uscita}} {{uscita_tv}}</span>
         <div>lingua: <img class="original-language" src="img/flags-mini/{{lingua}}.png" ></div>
         <div class="voto">
           {{{voto_medio}}}
