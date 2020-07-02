@@ -39,6 +39,9 @@ body {
   border-radius: 10px;
   background-color: #fbfeff;
 }
+.movie-container div {
+  line-height: 40px;
+}
 .movie-container img {
   height: 400px;
   border-top-right-radius: 10px;
@@ -55,6 +58,7 @@ body {
   width: 30px;
   height: 20px;
   border-radius: 0;
+  vertical-align: middle;
 }
 .movie-container .voto i {
   color: #f3c533;

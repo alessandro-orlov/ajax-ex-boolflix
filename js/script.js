@@ -33,8 +33,9 @@ $(document).ready(function() {
 
 // ==============================================================
 // ======================== FUNZIONI ============================
-
 // ==============================================================
+
+// ==================== searchMovie() ===========================
 // Funzione searchMovie
 // legge il valore dell'input .search-movie
 // ---> Ritorna: valore dell'input
@@ -48,9 +49,9 @@ function searchMovieValue() {
     // Ritorno il valore dell'input
     return searchInputValue
 }; // End funzione searchMovie
+// --------------------------------------------------------------
 
-
-// ==============================================================
+// ==================== ajaxCall() ==============================
 // Funzione ajaxCall
 // TMDb: Chiave API (v3 auth)
 // api_key: 345a41c08ec6d0c01364a6a7cd7a8052
@@ -95,8 +96,9 @@ function ajaxCall(valoreRicerca) {
   ); // End ajax call
 
 } // End function ajaxCall
+// --------------------------------------------------------------
 
-// =============================================================
+// ==================== pageSelector() ==========================
 function pageSelector(valoreRicerca) {
   // Seleziono tag select
   var select = $('.page-selector');
@@ -136,9 +138,9 @@ function pageSelector(valoreRicerca) {
 
   });
 }
+// --------------------------------------------------------------
 
-
-// ==============================================================
+// ==================== movieTamplate() =========================
 // Function movieTamplate
 // Con hendlebars compilo il tamplate
 // --->>> Argomento: un array di oggetti che ottengo con la chiamata ajax
@@ -163,9 +165,7 @@ function movieTamplate(resultArray) {
       poster = 'img/no-poster1.jpg'
     }
 
-    var persona = sinngleMovie.media_type;
-    console.log(persona)
-    if(persona != "person") {
+    if (sinngleMovie.media_type != "person") {
       // Metto nell'oggetto le chiavi del risultato e stampo i relativi valori
       var context = {
         // MOVIE SEARCH
@@ -191,15 +191,17 @@ function movieTamplate(resultArray) {
 
   }
 }
+// --------------------------------------------------------------
 
-// =============================================================
+// ==================== resetPage() =============================
 // Funzione resetPage()
 // Azzero i risultati della pagina qualora fossero presenti
 function resetSearchResult() {
   $('.show-results').html('');
 }
+// --------------------------------------------------------------
 
-// =============================================================
+// ==================== printMessage() ==========================
 // Funzione messagio di ERRORE
 // argomento deve essere una stringa
 function printMessage(text) {
@@ -213,8 +215,9 @@ function printMessage(text) {
   // Appendo il template compilato nel container apposito
   $('.show-results').append(html)
 }
+// --------------------------------------------------------------
 
-// =============================================================
+// ==================== movieScore() ============================
 // Funzione trasformazione voto
 function movieScore(rating) {
   // Trasformazione punteggio a 5 punti
@@ -232,5 +235,6 @@ function movieScore(rating) {
   }
   return stars;
 }
+// --------------------------------------------------------------
 
 }) // end document ready
