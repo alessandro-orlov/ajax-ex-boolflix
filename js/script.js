@@ -2,8 +2,8 @@ $(document).ready(function() {
 
   // Al click sul bottone stampo i risultati della ricerca
   $('button.search-movie-btn').click(function() {
-    // Resetto la pagina prima di stampore risultati
-    resetSearchResult();
+    // // Resetto la pagina prima di stampore risultati
+    // resetSearchResult();
 
     // Metto il valore dell'input nella variabile (function line: 36)*
     var searchValue = searchMovieValue();
@@ -17,8 +17,8 @@ $(document).ready(function() {
   // Premendo tasto enter stampo i risultati della ricerca
   $('.search-movie').keypress(function(event) {
     if (event.which === 13 ) {
-      // Resetto la pagina prima di stampore risultati
-      resetSearchResult();
+      // // Resetto la pagina prima di stampore risultati
+      // resetSearchResult();
 
       // Metto il valore dell'input nella variabile (function line: 36)*
       var searchValue = searchMovieValue();
@@ -74,12 +74,18 @@ function ajaxCall(valoreRicerca) {
         console.log(searchResults);
 
         if(searchResults.length > 0) {
+          resetSearchResult();
+
           movieTamplate(searchResults);
 
           pageSelector(valoreRicerca);
 
+          filmHover();
+
           $('.select-container').removeClass('hidden');
         } else {
+          resetSearchResult();
+          
           var noResultsMessage = "La ricerca non ha prodotto risultati";
           printMessage(noResultsMessage);
 
@@ -146,10 +152,6 @@ function pageSelector(valoreRicerca) {
 // --->>> Argomento: un array di oggetti che ottengo con la chiamata ajax
 function movieTamplate(resultArray) {
 
-  // Compilo il template
-  var source = $('#movies-template').html();
-  var template = Handlebars.compile(source);
-
   for (var i = 0; i < resultArray.length; i++) {
     // Metto nella variabile singolo oggetto dell'array
     var sinngleMovie = resultArray[i];
@@ -165,22 +167,36 @@ function movieTamplate(resultArray) {
       poster = 'img/no-poster1.jpg'
     }
 
+    // GENERE
+    var genere = 'Film'
+    var titolo = sinngleMovie.title;
+    var titoloOriginale = sinngleMovie.original_title;
+    var uscita = sinngleMovie.release_date
+    // Cambio le varioabili per i risultati SerieTV
+    if (sinngleMovie.media_type === 'tv') {
+      genere = 'Serie TV';
+      titolo = sinngleMovie.name;
+      titoloOriginale = sinngleMovie.original_name;
+      uscita = sinngleMovie.first_air_date
+    }
+
+
     if (sinngleMovie.media_type != "person") {
+      // Compilo il template
+      var source = $('#movies-template').html();
+      var template = Handlebars.compile(source);
+
       // Metto nell'oggetto le chiavi del risultato e stampo i relativi valori
       var context = {
-        // MOVIE SEARCH
+        // COMMON
         "poster" : poster,
-        "titolo" : sinngleMovie.title,
-        "titolo-originale": sinngleMovie.original_title,
-        "uscita": sinngleMovie.release_date,
+        "genere": genere,
+        "titolo" : titolo,
+        "titolo-originale": titoloOriginale,
+        "uscita": uscita,
         "overview": sinngleMovie.overview,
         "lingua": sinngleMovie.original_language,
         "voto_medio": ratingToPrint,
-
-        // TV SERIES
-        "titolo_tv" : sinngleMovie.name,
-        "uscita_tv" : sinngleMovie.first_air_date,
-        "serire_tv": "Genere" + ' ' + sinngleMovie.media_type
       }
 
       var html = template(context);
@@ -236,5 +252,14 @@ function movieScore(rating) {
   return stars;
 }
 // --------------------------------------------------------------
+
+// Al maousehover nascondo il poster e mostro informazioni sul film
+function filmHover() {
+  var singoloFilm = $(this, '.movie-container');
+
+  singoloFilm.mouseenter( function() {
+    singoloFilm.hide()
+  });
+}
 
 }) // end document ready

@@ -17,47 +17,59 @@
   </head>
   <body>
     <div class="wrapper">
-      <input class="search-movie" placeholder="inserisci il titolo del film">
-      <button class="search-movie-btn">cerca</button>
+      <header>
+        <div class="container">
+          <div class="logo">
+            <img src="img/boolflix-logo.png" alt="boolflix logo">
+          </div>
+          <div class="saerch">
+            <!-- Ricerca  -->
+            <input class="search-movie" placeholder="inserisci il titolo del film">
+            <button class="search-movie-btn">cerca</button>
+          </div>
+        </div>
+      </header>
 
-      <div class="show-results">
-        <!-- risultati di ricerca -->
+      <main>
+        <div class="show-results">
+          <!-- risultati di ricerca -->
+        </div>
 
-
-      </div>
-
-      <div class="select-container hidden">
-        <select class="page-selector">
-          <option value="1">Pagina 1</option>
-          <option value="2">Pagina 2</option>
-          <option value="3">Pagina 3</option>
-          <option value="4">Pagina 4</option>
-          <option value="5">Pagina 5</option>
-        </select>
-      </div>
-
-
+        <div class="select-container hidden">
+          <select class="page-selector">
+            <option value="1">Pagina 1</option>
+            <option value="2">Pagina 2</option>
+            <option value="3">Pagina 3</option>
+            <option value="4">Pagina 4</option>
+            <option value="5">Pagina 5</option>
+          </select>
+        </div>
+      </main>
     </div>
     <!-- End wrapper -->
 
     <!-- Handlebars movie tamplate -->
     <script id="movies-template" type="text/x-handlebars-template">
       <div class="movie-container">
-        <img src="{{poster}}">
-        <h2>{{titolo}} {{titolo_tv}}</h2>
-        <h5>{{titolo-originale}}</h5>
-        <div>{{serire_tv}}</div>
-        <span>Uscita:</span><span>{{uscita}} {{uscita_tv}}</span>
-        <div>lingua: <img class="original-language" src="img/flags-mini/{{lingua}}.png" ></div>
-        <div class="voto">
-          {{{voto_medio}}}
+
+        <div class="front-side">
+          <img class="poster" src="{{poster}}">
+        </div>
+
+        <div class="data-content hidden">
+          <h2>{{titolo}}</h2>
+          <h5>{{titolo-originale}}</h5>
+          <div>{{genere}}</div>
+          <span>Uscita:</span><span>{{uscita}}</span>
+          <div>lingua: <img class="original-language" src="img/flags-mini/{{lingua}}.png" ></div>
+          <div class="overview">{{overview}}</div>
+          <div class="voto">
+            {{{voto_medio}}}
+          </div>
         </div>
       </div>
     </script>
     <!-- End Handlebars movie tamplate -->
-
-
-
 
     <!-- Handlebars message tamplate -->
     <script id="message-template" type="text/x-handlebars-template">
