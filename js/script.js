@@ -165,7 +165,7 @@ function movieTamplate(resultArray) {
 
     // POSTER
     if (sinngleMovie.poster_path !== null) {
-      var poster = 'https://image.tmdb.org/t/p/original' + sinngleMovie.poster_path;
+      var poster = 'https://image.tmdb.org/t/p/w500' + sinngleMovie.poster_path;
     } else {
       poster = 'img/no-poster1.jpg'
     }
