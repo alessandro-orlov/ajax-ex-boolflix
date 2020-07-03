@@ -137,6 +137,7 @@ function pageSelector(valoreRicerca) {
 
           movieTamplate(searchResults);
 
+          filmHover();
         },
         error: function() {
           alert('ERRORE')
@@ -262,17 +263,17 @@ function filmHover() {
 
     singoloFilm.mouseenter( function() {
       console.log('mouseenter');
-      singoloFilm.find('.data-content').slideDown(300);
+      singoloFilm.find('.data-content').addClass('active');
+      singoloFilm.find('.front-side').addClass('active');
     });
 
     singoloFilm.mouseleave( function() {
       console.log('mouseleave');
-      singoloFilm.find('.data-content').slideUp(300);
+      singoloFilm.find('.data-content').removeClass('active');
+      singoloFilm.find('.front-side').removeClass('active');
     });
 
   });
-
-
 }
 
 }) // end document ready

@@ -64,16 +64,16 @@
           <img class="poster" src="{{poster}}">
         </div>
 
-        <div class="data-content hidden">
+        <div class="data-content">
           <h2>{{titolo}}</h2>
-          <h5>{{titolo-originale}}</h5>
-          <div>{{genere}}</div>
-          <span>Uscita:</span><span>{{uscita}}</span>
+          <h4>{{titolo-originale}}</h4>
+          <div class="genere">{{genere}}</div>
+          <div class="uscita">
+            <span>Uscita:</span><span> {{uscita}} </span>
+          </div>
           <div>lingua: <img class="original-language" src="img/flags-mini/{{lingua}}.png" ></div>
           <div class="overview">{{overview}}</div>
-          <div class="voto">
-            {{{voto_medio}}}
-          </div>
+          <div class="voto">{{{voto_medio}}}</div>
         </div>
       </div>
     </script>
