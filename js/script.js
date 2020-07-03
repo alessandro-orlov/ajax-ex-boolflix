@@ -85,7 +85,7 @@ function ajaxCall(valoreRicerca) {
           $('.select-container').removeClass('hidden');
         } else {
           resetSearchResult();
-          
+
           var noResultsMessage = "La ricerca non ha prodotto risultati";
           printMessage(noResultsMessage);
 
@@ -93,6 +93,8 @@ function ajaxCall(valoreRicerca) {
         }
       },
       error: function() {
+        resetSearchResult();
+
         var errore = "Qualcosa non torna";
         printMessage(errore);
 
@@ -202,7 +204,7 @@ function movieTamplate(resultArray) {
       var html = template(context);
 
       // Appendo il template compilato nel container apposito
-      $('.show-results').append(html)
+      $('.show-results .container').append(html)
     }
 
   }
@@ -213,7 +215,7 @@ function movieTamplate(resultArray) {
 // Funzione resetPage()
 // Azzero i risultati della pagina qualora fossero presenti
 function resetSearchResult() {
-  $('.show-results').html('');
+  $('.show-results .container').html('');
 }
 // --------------------------------------------------------------
 
@@ -229,7 +231,7 @@ function printMessage(text) {
   var html = template(context);
 
   // Appendo il template compilato nel container apposito
-  $('.show-results').append(html)
+  $('.show-results .container').append(html)
 }
 // --------------------------------------------------------------
 
@@ -255,11 +257,22 @@ function movieScore(rating) {
 
 // Al maousehover nascondo il poster e mostro informazioni sul film
 function filmHover() {
-  var singoloFilm = $(this, '.movie-container');
+  $('.movie-container').each(function() {
+    var singoloFilm = $(this);
 
-  singoloFilm.mouseenter( function() {
-    singoloFilm.hide()
+    singoloFilm.mouseenter( function() {
+      console.log('mouseenter');
+      singoloFilm.find('.data-content').slideDown(300);
+    });
+
+    singoloFilm.mouseleave( function() {
+      console.log('mouseleave');
+      singoloFilm.find('.data-content').slideUp(300);
+    });
+
   });
+
+
 }
 
 }) // end document ready
