@@ -1,34 +1,41 @@
 $(document).ready(function() {
+  var queryArray = [];
+  console.log(queryArray);
 
   // Al click sul bottone stampo i risultati della ricerca
   $('button.search-movie-btn').click(function() {
-    // // Resetto la pagina prima di stampore risultati
-    // resetSearchResult();
+    resetSearchResult();
 
     // Metto il valore dell'input nella variabile (function line: 36)*
-    var searchValue = searchMovieValue();
+    var searchValue = queryValue();
+    console.log(searchValue);
 
+    queryArray.push(searchValue);
+
+    console.log(queryArray);
     // Chiamo il database di TMDb e visualizzo i risultati in base al valore della ricerca
-    ajaxCall(searchValue);
+    ajaxCall(searchValue,'movie', 1);
+    ajaxCall(searchValue,'tv', 1);
 
   }); // End click on search-movie-btn
-
 
   // Premendo tasto enter stampo i risultati della ricerca
   $('.search-movie').keypress(function(event) {
     if (event.which === 13 ) {
-      // // Resetto la pagina prima di stampore risultati
-      // resetSearchResult();
+      resetSearchResult();
 
       // Metto il valore dell'input nella variabile (function line: 36)*
-      var searchValue = searchMovieValue();
+      var searchValue = queryValue();
 
-      // Chiamo il database di TMDb e visualizzo i risultati in base al valore della ricerca
-      ajaxCall(searchValue);
+      queryArray.push(searchValue);
+      console.log(queryArray);
+
+      // Chiamo il database di TMDb e visualizzo i risultati in base al valore della ricerca, tipo, pagina del risultato
+      ajaxCall(searchValue,'movie', 1);
+      ajaxCall(searchValue,'tv', 1);
 
     } // End if event.which
   }); // End keypress event
-
 
 
 // ==============================================================
@@ -39,7 +46,7 @@ $(document).ready(function() {
 // Funzione searchMovie
 // legge il valore dell'input .search-movie
 // ---> Ritorna: valore dell'input
-function searchMovieValue() {
+function queryValue() {
     // Leggo il valore all'evento (click, keypress)
     var searchInputValue = $('input.search-movie').val();
 
@@ -57,32 +64,36 @@ function searchMovieValue() {
 // api_key: 345a41c08ec6d0c01364a6a7cd7a8052
 // Interroga il database di Themoviedatabase.org e stampo i valori
 // --->>> Argomento: variabile che è una stringa o un valore dell'input
-function ajaxCall(valoreRicerca) {
-
+function ajaxCall(valoreRicerca, searchType, page) {
+  if(searchType === 'movie') {
+    var url = "https://api.themoviedb.org/3/search/movie"
+  } else if (searchType === 'tv') {
+    url = "https://api.themoviedb.org/3/search/tv"
+  }
   $.ajax(
     {
-      url:"https://api.themoviedb.org/3/search/multi",
+      url: url,
       method:"GET",
       data: {
         api_key:"345a41c08ec6d0c01364a6a7cd7a8052",
         query: valoreRicerca,
-        page: 1,
-        language: 'it-IT'
+        page: page,
+        language: 'it-IT',
       },
       success: function(data) {
         var searchResults = data.results;
-        console.log(searchResults);
+        // console.log(searchResults);
 
         if(searchResults.length > 0) {
-          resetSearchResult();
 
-          movieTamplate(searchResults);
-
-          pageSelector(valoreRicerca);
+          movieTamplate(searchResults, searchType);
 
           filmHover();
 
           $('.select-container').removeClass('hidden');
+
+          pageSelector();
+
         } else {
           resetSearchResult();
 
@@ -107,16 +118,19 @@ function ajaxCall(valoreRicerca) {
 // --------------------------------------------------------------
 
 // ==================== pageSelector() ==========================
-function pageSelector(valoreRicerca) {
+function pageSelector() {
   // Seleziono tag select
   var select = $('.page-selector');
 
   select.val(1)
-
   // Cambio valore dell'opzione del tag select
   select.change(function() {
     // Seleziono opzione del select
     selectOption = $(select).val();
+    var ultimaQuery = queryArray.length - 1;
+    console.log(ultimaQuery)
+    var lastWord = queryArray[ultimaQuery];
+    console.log(lastWord);
 
     // Stampo la pagina della ricerca
     // selezionata nel select (.page-selector)
@@ -126,7 +140,7 @@ function pageSelector(valoreRicerca) {
         method:"GET",
         data: {
           api_key:"345a41c08ec6d0c01364a6a7cd7a8052",
-          query: valoreRicerca,
+          query: lastWord,
           page: selectOption,
           language: 'it-IT'
         },
@@ -153,11 +167,12 @@ function pageSelector(valoreRicerca) {
 // Function movieTamplate
 // Con hendlebars compilo il tamplate
 // --->>> Argomento: un array di oggetti che ottengo con la chiamata ajax
-function movieTamplate(resultArray) {
+function movieTamplate(resultArray, searchType) {
 
   for (var i = 0; i < resultArray.length; i++) {
     // Metto nella variabile singolo oggetto dell'array
     var sinngleMovie = resultArray[i];
+    console.log(sinngleMovie)
 
     // Trasformazione da punteggio 10 a punteggio 5
     var rating = sinngleMovie.vote_average
@@ -165,24 +180,24 @@ function movieTamplate(resultArray) {
 
     // POSTER
     if (sinngleMovie.poster_path !== null) {
-      var poster = 'https://image.tmdb.org/t/p/w500' + sinngleMovie.poster_path;
+      var poster = 'https://image.tmdb.org/t/p/original' + sinngleMovie.poster_path;
     } else {
       poster = 'img/no-poster1.jpg'
     }
 
     // GENERE
-    var genere = 'Film'
-    var titolo = sinngleMovie.title;
-    var titoloOriginale = sinngleMovie.original_title;
-    var uscita = sinngleMovie.release_date
-    // Cambio le varioabili per i risultati SerieTV
-    if (sinngleMovie.media_type === 'tv') {
+    if (searchType === 'movie' || sinngleMovie.media_type === 'movie') {
+      var genere = 'Film'
+      var titolo = sinngleMovie.title;
+      var titoloOriginale = sinngleMovie.original_title;
+      var uscita = sinngleMovie.release_date
+    } else {
+      // Cambio le varioabili per i risultati SerieTV
       genere = 'Serie TV';
       titolo = sinngleMovie.name;
       titoloOriginale = sinngleMovie.original_name;
       uscita = sinngleMovie.first_air_date
     }
-
 
     if (sinngleMovie.media_type != "person") {
       // Compilo il template
@@ -205,9 +220,8 @@ function movieTamplate(resultArray) {
       var html = template(context);
 
       // Appendo il template compilato nel container apposito
-      $('.show-results .container').append(html)
+      $('.show-results .container').append(html);
     }
-
   }
 }
 // --------------------------------------------------------------
@@ -262,13 +276,11 @@ function filmHover() {
     var singoloFilm = $(this);
 
     singoloFilm.mouseenter( function() {
-      console.log('mouseenter');
       singoloFilm.find('.data-content').addClass('active');
       singoloFilm.find('.front-side').addClass('active');
     });
 
     singoloFilm.mouseleave( function() {
-      console.log('mouseleave');
       singoloFilm.find('.data-content').removeClass('active');
       singoloFilm.find('.front-side').removeClass('active');
     });
@@ -277,3 +289,25 @@ function filmHover() {
 }
 
 }) // end document ready
+
+// ==============================================================
+// =============== CODICE ELIMINATO =============================
+
+// // ==================== pageSelector() ==========================
+// function pageSelector() {
+//       var ultimaQuery = queryArray.length - 1;
+//       console.log(ultimaQuery)
+//       var lastWord = queryArray[ultimaQuery];
+//       console.log(lastWord);
+//
+//       // select.val(1)
+//       // Seleziono opzione del select
+//         var select = $('.page-selector');
+//       var selectOption = $(select).val();
+//       var pageNumber = parseInt(selectOption)
+//       console.log(pageNumber)
+//
+//       ajaxPageCall(lastWord, 'movie', pageNumber);
+//       ajaxPageCall(lastWord, 'tv', pageNumber);
+//   }
+// // --------------------------------------------------------------

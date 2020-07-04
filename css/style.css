@@ -29,13 +29,14 @@ header {
 }
 header .logo {
  width: 150px;
+ vertical-align: middle;
 }
 header .logo img {
   width:  100%;
 }
 header .saerch {
-  /* display: inline-block; */
   line-height: 50px;
+  vertical-align: middle;
 }
 input.search-movie {
   padding: 5px 10px;
@@ -76,8 +77,9 @@ padding:20px 0;
 
 /* MOVIE CONTAINER */
 .movie-container {
-  flex-basis: 250px;
-  margin: 20px 0;
+  flex-basis: 280px;
+  margin: 20px;
+  height:380px;
   text-align: center;
   border-radius: 10px;
   cursor: pointer;
@@ -89,7 +91,7 @@ padding:20px 0;
 }
 .front-side img {
   width: 100%;
-  /* height: 350px; */
+  height: 380px;
   border-radius: 10px;
 }
 .movie-container .data-content {
@@ -153,7 +155,12 @@ padding:20px 0;
 /* 480px */
 @media all and (min-width:480px) {
   .movie-container {
+    flex-basis: 250px;
     margin: 20px;
+    height:350px;
+  }
+  .front-side img {
+    height: 350px;
   }
 }
 
@@ -167,7 +174,7 @@ padding:20px 0;
     justify-content: space-between;
   }
   .movie-container {
-    margin-bottom: 20px;
+    margin: 20px 0;
   }
 
 }
