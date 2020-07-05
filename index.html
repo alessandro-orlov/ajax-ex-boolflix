@@ -6,6 +6,8 @@
     <title>Holidays calendar 2018 by Alexander Orlov</title>
     <!-- JQuery -->
     <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+    <!-- Moment.js -->
+    <script src="https://momentjs.com/downloads/moment-with-locales.min.js"></script>
     <!-- handlebars -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.6/handlebars.js"></script>
     <!-- Font awesome -->
@@ -16,43 +18,48 @@
     <link rel="stylesheet" href="css/style.css">
   </head>
   <body>
+    <!-- Begin wrapper -->
     <div class="wrapper">
       <header>
-
         <div class="container">
-
-          <div class="">
+          <!-- Begin Company -->
+          <div class="company">
             <a href="index.html">
               <img class="logo" src="img/boolflix-logo.png" alt="boolflix logo">
             </a>
           </div>
-
+          <!-- Begin Ricerca -->
           <div class="saerch">
-            <!-- Ricerca  -->
             <input class="search-movie" placeholder="inserisci il titolo del film">
             <button class="search-movie-btn">cerca</button>
           </div>
-
         </div>
-
       </header>
 
       <main>
         <div class="show-results">
-          <!-- risultati di ricerca -->
-          <div class="container">
-
+          <!-- Begin movie -->
+          <div class="movies">
+            <p class="risultati hidden">
+              Film: <span class="results-number"></span>
+            </p>
+            <div class="container movies-results">
+              <!-- risultati di ricerca -->
+            </div>
           </div>
-        </div>
+          <!-- End Movies -->
 
-        <div class="select-container hidden">
-          <select class="page-selector">
-            <option value="1">Pagina 1</option>
-            <option value="2">Pagina 2</option>
-            <option value="3">Pagina 3</option>
-            <option value="4">Pagina 4</option>
-            <option value="5">Pagina 5</option>
-          </select>
+          <!-- Begin tv-shows -->
+          <div class="tv-series">
+            <p class="risultati hidden">
+              Serie TV: <span class="results-number"></span>
+            </p>
+            <div class="container tv-series-results">
+              <!-- risultati di ricerca -->
+            </div>
+          </div>
+          <!-- End tv-shows -->
+
         </div>
       </main>
     </div>
@@ -83,7 +90,7 @@
 
     <!-- Handlebars message tamplate -->
     <script id="message-template" type="text/x-handlebars-template">
-      <p class="error-message">{{message}} <i class="fas fa-exclamation-triangle"></i></p>
+      <div class="error-message">{{{message}}}</div>
     </script>
     <!-- End Handlebars tamplate -->
 
