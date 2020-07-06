@@ -187,16 +187,24 @@ padding:20px 0;
   top: 0;
   left: 0;
   height: 100%;
+  width: 100%;
   background: #a50101;
   padding: 10px;
   border-radius: 10px;
   display: none;
 }
-
 .data-content .show-overview,
 .data-content .hide-overview {
   display: inline-block;
   padding: 10px 16px;
+  border-radius: 5px;
+}
+.data-content .show-overview {
+  background: #dc1a28;
+}
+.data-content .hide-overview {
+  margin: 10px 0;
+  background: #191919;
 }
 .movie-container img.original-language {
   display: inline-block;

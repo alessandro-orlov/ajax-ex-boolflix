@@ -273,16 +273,12 @@ function objectHover() {
       singoloFilm.find('.data-content').addClass('active');
       singoloFilm.find('.front-side').addClass('active');
 
-      // var objectId = $(singoloFilm).attr('data-id');
-      // var tipo = $(singoloFilm).find('.tipo').text();
-      // console.log(tipo)
-      // ajaxCallDetails(objectId, tipo);
      $(singoloFilm).find('.show-overview').click(function() {
-       $('.overview').slideDown();
+       $(singoloFilm).find('.overview').slideDown();
      })
 
      $(singoloFilm).find('.hide-overview').click(function() {
-       $('.overview').slideUp();
+       $(singoloFilm).find('.overview').slideUp();
      })
     });
 
@@ -290,7 +286,10 @@ function objectHover() {
     singoloFilm.mouseleave( function() {
       singoloFilm.find('.data-content').removeClass('active');
       singoloFilm.find('.front-side').removeClass('active');
-      singoloFilm.find('.overview').slideUp();
+
+      $(singoloFilm).find('.overview').slideUp();
+
+
       // setTimeout(function() {
       //   $(singoloFilm).find('.details').html('')
       // }, 500)
