@@ -178,11 +178,10 @@ padding:20px 0;
 .data-content h4 {
   color: #ccc;
 }
+.data-content .genres {
+  margin: 5px 0;
+}
 .data-content .overview {
-  overflow: hidden;
-  display: -webkit-box;
-  -webkit-line-clamp: 4;
-  -webkit-box-orient: vertical;
   position: absolute;
   top: 0;
   left: 0;
@@ -192,6 +191,13 @@ padding:20px 0;
   padding: 10px;
   border-radius: 10px;
   display: none;
+  overflow: hidden;
+}
+.data-content .overview .trama {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 12;
+  -webkit-box-orient: vertical;
 }
 .data-content .show-overview,
 .data-content .hide-overview {
