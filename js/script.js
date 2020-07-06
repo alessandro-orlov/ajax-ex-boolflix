@@ -1,6 +1,7 @@
 $(document).ready(function() {
-  ajaxCallGenre();
-  // console.log(test)
+
+  // var test = ajaxCallGenre(255);
+  // console.log(test);
 
   // ==============================================================
   // ====================== CLIK ON BUTTON ========================
@@ -90,7 +91,8 @@ function ajaxCall(valoreRicerca, searchType) {
 
           movieTamplate(searchResults, searchType);
 
-          filmHover();
+          objectHover();
+
 
         } else {
 
@@ -122,9 +124,11 @@ function movieTamplate(resultArray, searchType) {
   for (var i = 0; i < resultArray.length; i++) {
     // Metto nella variabile singolo oggetto dell'array
     var singleObject = resultArray[i];
-    var id = singleObject.id
-    // ajaxCastCall(id)
-    // console.log(singleObject.id)
+    var objectId = singleObject.id
+
+
+    // var tipoDiFilm = ajaxCallDetails(objectId)
+    // console.log(tipoDiFilm)
 
     // Trasformazione da punteggio 10 a punteggio 5
     var rating = singleObject.vote_average
@@ -145,13 +149,13 @@ function movieTamplate(resultArray, searchType) {
 
     // GENERE
     if (searchType === 'movie') {
-      var genere = 'Film'
+      var tipo = 'Film'
       var titolo = singleObject.title;
       var titoloOriginale = singleObject.original_title;
       var uscita = dataUscitaMovie;
     } else {
       // Cambio le varioabili per i risultati SerieTV
-      genere = 'Serie TV';
+      tipo = 'Serie TV';
       titolo = singleObject.name;
       titoloOriginale = singleObject.original_name;
       uscita = dataUscitaTV;
@@ -165,14 +169,15 @@ function movieTamplate(resultArray, searchType) {
     var context = {
       // COMMON
       "poster" : poster,
-      "genere": genere,
+      "tipo": tipo,
       "titolo" : titolo,
       "titolo-originale": titoloOriginale,
       "uscita": uscita,
-      "cast": singleObject.id,
+      "type": ['ciao', 'mondo'], // ARRAY D
       "overview": singleObject.overview,
       "lingua": singleObject.original_language,
       "voto_medio": ratingToPrint,
+      "object_id": objectId
     }
 
     var html = template(context);
@@ -183,7 +188,11 @@ function movieTamplate(resultArray, searchType) {
     } else {
       $('.show-results .container.tv-series-results').append(html);
     }
-  }
+
+    ajaxCallDetails(objectId);
+
+  } // End ciclo for
+
 }
 // --------------------------------------------------------------
 
@@ -257,8 +266,9 @@ function noResultsMessage(searchType, data) {
 }
 // --------------------------------------------------------------
 
+// ==================== objectHover() ============================
 // Al maousehover nascondo il poster e mostro informazioni sul film
-function filmHover() {
+function objectHover() {
   $('.movie-container').each(function() {
     var singoloFilm = $(this);
 
@@ -275,34 +285,72 @@ function filmHover() {
   });
 }
 // --------------------------------------------------------------
-function ajaxCallGenre() {
-  var creditId = 213
+
+// ==================== ajaxCallDetails() =======================
+function ajaxCallDetails(id) {
+
   $.ajax(
     {
-      url: "https://api.themoviedb.org/3/movie/" + creditId + "credits",
+      url: "https://api.themoviedb.org/3/movie/" + id,
       method:"GET",
       data: {
+        append_to_response: 'credits',
         api_key:"345a41c08ec6d0c01364a6a7cd7a8052",
       },
       success: function(data) {
+        var objectGenres = data.genres; // array di oggetti
 
-        var genere = data.genres;
-        var test ="test"
-        for (var i = 0; i < genere.length; i++) {
-            var genreObject = genere[i];
-            var singleGenre = genreObject.name
-            console.log(singleGenre)
-        }
+        var objectCredits = data.credits;
+        var objectCast = objectCredits.cast;
 
-        return test;
+        printDetails(objectGenres, objectCast, id);
 
       },
       error: function() {
-        console.log('errore')
+        console.log('errore del XXX')
       }
     }
   ); // End ajax call
 
-}
+} // end function
+// --------------------------------------------------------------
+
+
+// ==================== ajaxCallDetails() =======================
+function printDetails(objectGenres, objectCast, id) {
+  var objectCard = $('.movie-container[data-id="'+ id +'"]');
+
+    // GENRES
+    var genresNames = [];
+    for (var i = 0; i < objectGenres.length; i++) {
+      var singleGenre = objectGenres[i];
+      genresNames.push(singleGenre.name);
+    }
+    // console.log(genresNames);
+
+    // CAST
+    var actorsNames = [];
+    for (var i = 0; i < objectCast.length; i++) {
+      var singleActor = objectCast[i];
+      actorsNames.push(singleActor.name);
+    }
+    // Seleziono solo i primi 5 attori
+    var fiveActors = actorsNames.slice(0, 5);
+
+    // Compilo il template
+    var source = $('#details-template').html();
+    var template = Handlebars.compile(source);
+
+    var context = {
+      genres: genresNames.join(", "),
+      credits: fiveActors.join(", "),
+    }
+    var html = template(context);
+
+    // Appendo il template compilato nel container apposito
+    $(objectCard).find('.details').append(html);
+
+} // End function
+// --------------------------------------------------------------
 
 }) // end document ready

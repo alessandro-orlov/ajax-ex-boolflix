@@ -67,7 +67,7 @@
 
     <!-- Handlebars movie tamplate -->
     <script id="movies-template" type="text/x-handlebars-template">
-      <div class="movie-container">
+      <div class="movie-container" data-id="{{object_id}}">
 
         <div class="front-side">
           <img class="poster" src="{{poster}}">
@@ -76,12 +76,14 @@
         <div class="data-content">
           <h2>{{titolo}}</h2>
           <h4>{{titolo-originale}}</h4>
-          <div class="genere">{{genere}}</div>
+          <div class="tipo">{{tipo}}</div>
           <div class="uscita">
             <span>Uscita:</span><span> {{uscita}} </span>
           </div>
           <div>lingua: <img class="original-language" src="img/flags-mini/{{lingua}}.png" ></div>
-          <div class="cast">{{cast}}</div>
+          <div class="details">
+            <!-- details tamplate -->
+          </div>
           <div class="overview">{{overview}}</div>
           <div class="voto">{{{voto_medio}}}</div>
         </div>
@@ -92,6 +94,18 @@
     <!-- Handlebars message tamplate -->
     <script id="message-template" type="text/x-handlebars-template">
       <div class="error-message">{{{message}}}</div>
+    </script>
+    <!-- End Handlebars tamplate -->
+
+    <!-- Handlebars details tamplate -->
+    <script id="details-template" type="text/x-handlebars-template">
+      <div class="genres">
+        Tipo: {{genres}}
+      </div>
+      <ul class="credits">
+        Cast: {{credits}}
+      </ul>
+
     </script>
     <!-- End Handlebars tamplate -->
 
