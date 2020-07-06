@@ -1,4 +1,6 @@
 $(document).ready(function() {
+  ajaxCallGenre();
+  // console.log(test)
 
   // ==============================================================
   // ====================== CLIK ON BUTTON ========================
@@ -74,6 +76,7 @@ function ajaxCall(valoreRicerca, searchType) {
       success: function(data) {
         var totalResults = data.total_results
         var searchResults = data.results;
+        console.log(searchResults)
 
         if(searchResults.length > 0) {
 
@@ -119,7 +122,9 @@ function movieTamplate(resultArray, searchType) {
   for (var i = 0; i < resultArray.length; i++) {
     // Metto nella variabile singolo oggetto dell'array
     var singleObject = resultArray[i];
-    // console.log(singleObject)
+    var id = singleObject.id
+    // ajaxCastCall(id)
+    // console.log(singleObject.id)
 
     // Trasformazione da punteggio 10 a punteggio 5
     var rating = singleObject.vote_average
@@ -164,6 +169,7 @@ function movieTamplate(resultArray, searchType) {
       "titolo" : titolo,
       "titolo-originale": titoloOriginale,
       "uscita": uscita,
+      "cast": singleObject.id,
       "overview": singleObject.overview,
       "lingua": singleObject.original_language,
       "voto_medio": ratingToPrint,
@@ -269,5 +275,34 @@ function filmHover() {
   });
 }
 // --------------------------------------------------------------
+function ajaxCallGenre() {
+  var creditId = 213
+  $.ajax(
+    {
+      url: "https://api.themoviedb.org/3/movie/" + creditId + "credits",
+      method:"GET",
+      data: {
+        api_key:"345a41c08ec6d0c01364a6a7cd7a8052",
+      },
+      success: function(data) {
+
+        var genere = data.genres;
+        var test ="test"
+        for (var i = 0; i < genere.length; i++) {
+            var genreObject = genere[i];
+            var singleGenre = genreObject.name
+            console.log(singleGenre)
+        }
+
+        return test;
+
+      },
+      error: function() {
+        console.log('errore')
+      }
+    }
+  ); // End ajax call
+
+}
 
 }) // end document ready
