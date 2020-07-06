@@ -89,7 +89,7 @@ function ajaxCall(valoreRicerca, searchType) {
 
           $('.show-results p.risultati').removeClass('hidden');
 
-          movieTamplate(searchResults, searchType);
+          printObject(searchResults, searchType);
 
           objectHover();
 
@@ -114,12 +114,12 @@ function ajaxCall(valoreRicerca, searchType) {
 // --------------------------------------------------------------
 
 // ==================== objectTamplate() =========================
-// Function movieTamplate
+// Function printObject
 // Con hendlebars compilo il tamplate:
 // Argomenti:
 // ---> resultArray = un array di oggetti che ottengo con la chiamata ajax
 // ---> searchType = determina l'endpoint della chiamata API (si ottiene leggendo l'argomento della funzione "ajaxCall()"
-function movieTamplate(resultArray, searchType) {
+function printObject(resultArray, searchType) {
 
   for (var i = 0; i < resultArray.length; i++) {
     // Metto nella variabile singolo oggetto dell'array
@@ -189,7 +189,7 @@ function movieTamplate(resultArray, searchType) {
       $('.show-results .container.tv-series-results').append(html);
     }
 
-    ajaxCallDetails(objectId);
+    // ajaxCallDetails(objectId);
 
   } // End ciclo for
 
@@ -275,11 +275,20 @@ function objectHover() {
     singoloFilm.mouseenter( function() {
       singoloFilm.find('.data-content').addClass('active');
       singoloFilm.find('.front-side').addClass('active');
+
+      var objectId = $(singoloFilm).attr('data-id');
+      ajaxCallDetails(objectId);
     });
+
 
     singoloFilm.mouseleave( function() {
       singoloFilm.find('.data-content').removeClass('active');
       singoloFilm.find('.front-side').removeClass('active');
+
+      setTimeout(function() {
+        $(singoloFilm).find('.details').html('')
+      }, 500)
+
     });
 
   });
@@ -316,7 +325,7 @@ function ajaxCallDetails(id) {
 // --------------------------------------------------------------
 
 
-// ==================== ajaxCallDetails() =======================
+// ==================== printDetails() =======================
 function printDetails(objectGenres, objectCast, id) {
   var objectCard = $('.movie-container[data-id="'+ id +'"]');
 
@@ -326,7 +335,6 @@ function printDetails(objectGenres, objectCast, id) {
       var singleGenre = objectGenres[i];
       genresNames.push(singleGenre.name);
     }
-    // console.log(genresNames);
 
     // CAST
     var actorsNames = [];
