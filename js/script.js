@@ -93,11 +93,9 @@ function ajaxCall(valoreRicerca, searchType) {
 
           objectHover();
 
-
         } else {
 
           noResultsMessage(searchType, data);
-
         }
       },
       error: function() {
@@ -113,7 +111,7 @@ function ajaxCall(valoreRicerca, searchType) {
 } // End function ajaxCall
 // --------------------------------------------------------------
 
-// ==================== objectTamplate() =========================
+// ==================== printObject() =========================
 // Function printObject
 // Con hendlebars compilo il tamplate:
 // Argomenti:
@@ -173,7 +171,6 @@ function printObject(resultArray, searchType) {
       "titolo" : titolo,
       "titolo-originale": titoloOriginale,
       "uscita": uscita,
-      "type": ['ciao', 'mondo'], // ARRAY D
       "overview": singleObject.overview,
       "lingua": singleObject.original_language,
       "voto_medio": ratingToPrint,
@@ -188,8 +185,8 @@ function printObject(resultArray, searchType) {
     } else {
       $('.show-results .container.tv-series-results').append(html);
     }
-
-    // ajaxCallDetails(objectId);
+    // Stamo a schermo
+    ajaxCallDetails(objectId, tipo);
 
   } // End ciclo for
 
@@ -276,8 +273,10 @@ function objectHover() {
       singoloFilm.find('.data-content').addClass('active');
       singoloFilm.find('.front-side').addClass('active');
 
-      var objectId = $(singoloFilm).attr('data-id');
-      ajaxCallDetails(objectId);
+      // var objectId = $(singoloFilm).attr('data-id');
+      // var tipo = $(singoloFilm).find('.tipo').text();
+      // console.log(tipo)
+      // ajaxCallDetails(objectId, tipo);
     });
 
 
@@ -285,9 +284,9 @@ function objectHover() {
       singoloFilm.find('.data-content').removeClass('active');
       singoloFilm.find('.front-side').removeClass('active');
 
-      setTimeout(function() {
-        $(singoloFilm).find('.details').html('')
-      }, 500)
+      // setTimeout(function() {
+      //   $(singoloFilm).find('.details').html('')
+      // }, 500)
 
     });
 
@@ -296,11 +295,15 @@ function objectHover() {
 // --------------------------------------------------------------
 
 // ==================== ajaxCallDetails() =======================
-function ajaxCallDetails(id) {
-
+function ajaxCallDetails(id, tipo) {
+  if(tipo === 'Film') {
+    var url = "https://api.themoviedb.org/3/movie/";
+  } else if (tipo === 'Serie TV') {
+    url = "https://api.themoviedb.org/3/tv/";
+  }
   $.ajax(
     {
-      url: "https://api.themoviedb.org/3/movie/" + id,
+      url: url + id,
       method:"GET",
       data: {
         append_to_response: 'credits',

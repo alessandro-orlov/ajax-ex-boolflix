@@ -78,6 +78,7 @@ main {
   background-color: #535d65;
   min-height: calc(100vh - 112.7px);
   padding-bottom: 20px;
+  position: relative;
 }
 .show-results {
 padding:20px 0;
@@ -102,11 +103,12 @@ padding:20px 0;
  }
 .error-message {
   position: absolute;
-  top: 50%;
+  top: 30%;
   left:50%;
   transform: translate(-50%, -50%);
   color: lightgrey;
   text-align: center;
+  width: 100%;
 }
 .error-message i {
   display: block;
@@ -157,6 +159,8 @@ padding:20px 0;
   justify-content: space-between;
   transform: rotateY(-90deg);
   transition: .2s ease-in .1s;
+  font-size: .9em;
+  line-height: 1.5em;
 }
 .movie-container .front-side.active {
   transform: rotateY(90deg);
@@ -167,30 +171,28 @@ padding:20px 0;
   /* transition: .2s ease-in-out .2s */
 }
 .data-content h2 {
-  /* min-height: 70px; */
+  color: #dc1a28;
+  letter-spacing: 1px;
+  font-size: 1.6em;
 }
 .data-content h4 {
-
+  color: #ccc;
 }
-.movie-container .overview {
-  line-height: 25px;
+.data-content .overview {
   overflow: hidden;
   display: -webkit-box;
-  -webkit-line-clamp: 5;
+  -webkit-line-clamp: 4;
   -webkit-box-orient: vertical;
 }
 .movie-container img.original-language {
   display: inline-block;
-  width: 30px;
-  height: 20px;
+  width: 26px;
+  height: 16px;
   border-radius: 0;
   vertical-align: middle;
 }
 .movie-container .voto i {
   color: #f3c533;
-}
-.wrapper .select-container  {
-  text-align: center;
 }
 .wrapper .hidden {
   display: none;
