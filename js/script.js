@@ -277,13 +277,20 @@ function objectHover() {
       // var tipo = $(singoloFilm).find('.tipo').text();
       // console.log(tipo)
       // ajaxCallDetails(objectId, tipo);
+     $(singoloFilm).find('.show-overview').click(function() {
+       $('.overview').slideDown();
+     })
+
+     $(singoloFilm).find('.hide-overview').click(function() {
+       $('.overview').slideUp();
+     })
     });
 
 
     singoloFilm.mouseleave( function() {
       singoloFilm.find('.data-content').removeClass('active');
       singoloFilm.find('.front-side').removeClass('active');
-
+      singoloFilm.find('.overview').slideUp();
       // setTimeout(function() {
       //   $(singoloFilm).find('.details').html('')
       // }, 500)
@@ -362,6 +369,8 @@ function printDetails(objectGenres, objectCast, id) {
     $(objectCard).find('.details').append(html);
 
 } // End function
+
+
 // --------------------------------------------------------------
 
 }) // end document ready
