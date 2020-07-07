@@ -72,7 +72,7 @@ function ajaxCall(valoreRicerca, searchType) {
         query: valoreRicerca,
         page: 1,
         language: 'it-IT',
-        // include_adult: true
+        include_adult: true
       },
       success: function(data) {
         var totalResults = data.total_results
@@ -267,32 +267,27 @@ function noResultsMessage(searchType, data) {
 // Al maousehover nascondo il poster e mostro informazioni sul film
 function objectHover() {
   $('.movie-container').each(function() {
-    var singoloFilm = $(this);
+    var thisObject = $(this);
 
-    singoloFilm.mouseenter( function() {
-      singoloFilm.find('.data-content').addClass('active');
-      singoloFilm.find('.front-side').addClass('active');
+    thisObject.mouseenter( function() {
+      thisObject.find('.data-content').addClass('active');
+      thisObject.find('.front-side').addClass('active');
 
-     $(singoloFilm).find('.show-overview').click(function() {
-       $(singoloFilm).find('.overview').slideDown();
+     $(thisObject).find('.show-overview').click(function() {
+       $(thisObject).find('.overview').slideDown();
      })
 
-     $(singoloFilm).find('.hide-overview').click(function() {
-       $(singoloFilm).find('.overview').slideUp();
+     $(thisObject).find('.hide-overview').click(function() {
+       $(thisObject).find('.overview').slideUp();
      })
     });
 
 
-    singoloFilm.mouseleave( function() {
-      singoloFilm.find('.data-content').removeClass('active');
-      singoloFilm.find('.front-side').removeClass('active');
+    thisObject.mouseleave( function() {
+      thisObject.find('.data-content').removeClass('active');
+      thisObject.find('.front-side').removeClass('active');
 
-      $(singoloFilm).find('.overview').slideUp();
-
-
-      // setTimeout(function() {
-      //   $(singoloFilm).find('.details').html('')
-      // }, 500)
+      $(thisObject).find('.overview').slideUp();
 
     });
 
